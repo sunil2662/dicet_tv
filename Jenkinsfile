@@ -4,12 +4,17 @@ pipeline {
     stages {
         stage('Git') {
             steps {
-                git 'https://github.com/vamsibyramala/dicet_tv.git'
+                git 'https://github.com/sunil2662/dicet_tv.git'
             }
         }
-        stage('build') {
-            steps {
+        stage('maven'){
+            steps{
                 sh 'mvn clean package'
+            }
+        }
+        stage('deploy'){
+            steps{
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'tomcat', path: '', url: 'http://3.108.42.226:8080/')], contextPath: 'sunil', war: '**/*.war'
             }
         }
     }
